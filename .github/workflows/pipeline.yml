@@ -113,7 +113,7 @@ jobs:
   helm_lint:
     strategy:
       matrix:
-        environments: ['dev', 'preprod', 'prod']
+        environments: ['dev']
     name: helm lint
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@v2 # WORKFLOW_VERSION
     needs:
@@ -125,7 +125,7 @@ jobs:
   pr_docker_health_check:
     name: PR Docker build and health check
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/main'
+#    if: github.ref != 'refs/heads/main'
     needs:
       - node_build
       - helm_lint
@@ -213,7 +213,7 @@ jobs:
   # build docker image
   build:
     name: Build docker image from hmpps-github-actions
-    if: github.ref == 'refs/heads/main'
+#    if: github.ref == 'refs/heads/main'
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@v2 # WORKFLOW_VERSION
     needs:
       - helm_lint
@@ -223,7 +223,7 @@ jobs:
       docker_registry: 'ghcr.io'
       registry_org: 'ministryofjustice'
       additional_docker_tag: ${{ inputs.additional_docker_tag }}
-      push: ${{ inputs.push || inputs.push == null }}
+      push: true
       docker_multiplatform: false
 
   # Deploy to environment
@@ -238,36 +238,36 @@ jobs:
       environment: 'dev'
       app_version: '${{ needs.build.outputs.app_version }}'
       slack_notification: 'false' # if 'true', it needs a valid NONPROD_RELEASES_SLACK_CHANNEL variable to be set
-  deploy_test:
-    name: Deploy to the test environment
-    needs:
-      - build
-      - helm_lint
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
-    secrets: inherit
-    with:
-      environment: 'test'
-      app_version: '${{ needs.build.outputs.app_version }}'
-      slack_notification: 'false' # if 'true', it needs a valid NONPROD_RELEASES_SLACK_CHANNEL variable to be set
-  deploy_preprod:
-    name: Deploy to pre-production environment
-    needs:
-      - build
-      - deploy_dev
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
-    secrets: inherit
-    with:
-      environment: 'preprod'
-      app_version: '${{ needs.build.outputs.app_version }}'
-      slack_notification: 'false' # if 'true', it needs a valid NONPROD_RELEASES_SLACK_CHANNEL variable to be set
-  deploy_prod:
-    name: Deploy to production environment
-    needs:
-      - build
-      - deploy_preprod
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
-    secrets: inherit
-    with:
-      environment: 'prod'
-      app_version: '${{ needs.build.outputs.app_version }}'
-      slack_notification: 'false' # if 'true', it needs a valid PROD_RELEASES_SLACK_CHANNEL variable to be set
+#  deploy_test:
+#    name: Deploy to the test environment
+#    needs:
+#      - build
+#      - helm_lint
+#    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
+#    secrets: inherit
+#    with:
+#      environment: 'test'
+#      app_version: '${{ needs.build.outputs.app_version }}'
+#      slack_notification: 'false' # if 'true', it needs a valid NONPROD_RELEASES_SLACK_CHANNEL variable to be set
+#  deploy_preprod:
+#    name: Deploy to pre-production environment
+#    needs:
+#      - build
+#      - deploy_dev
+#    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
+#    secrets: inherit
+#    with:
+#      environment: 'preprod'
+#      app_version: '${{ needs.build.outputs.app_version }}'
+#      slack_notification: 'false' # if 'true', it needs a valid NONPROD_RELEASES_SLACK_CHANNEL variable to be set
+#  deploy_prod:
+#    name: Deploy to production environment
+#    needs:
+#      - build
+#      - deploy_preprod
+#    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
+#    secrets: inherit
+#    with:
+#      environment: 'prod'
+#      app_version: '${{ needs.build.outputs.app_version }}'
+#      slack_notification: 'false' # if 'true', it needs a valid PROD_RELEASES_SLACK_CHANNEL variable to be set
