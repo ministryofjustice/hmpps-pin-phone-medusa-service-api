@@ -63,7 +63,7 @@ describe('validateHmppsToken', () => {
     jwtDecode.mockReturnValue({ header: { kid: 'key' } })
     mockGetSigningKey.mockResolvedValue({ getPublicKey: () => 'public-key' })
     jwtVerify.mockReturnValue({
-      client_id: 'digital-canteen-client',
+      client_id: 'pin-phone-client',
       authorities: ['ROLE_PIN_PHONE_CREDIT_API'],
     })
 

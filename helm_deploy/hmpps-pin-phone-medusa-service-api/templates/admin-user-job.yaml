@@ -1,0 +1,118 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "generic-service.fullname" . }}-create-admin
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 2000
+        fsGroup: 2000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: create-admin-user
+          image: "ghcr.io/ministryofjustice/hmpps-pin-phone-medusa-service-api:{{ index .Values "generic-service" "image" "tag" }}"
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 2000
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+          command:
+            - sh
+            - -c
+            - |
+              cd /app/.medusa/server
+
+              echo "Checking if admin user exists..."
+
+              OUTPUT=$(node ./node_modules/.bin/medusa user -e "$ADMIN_EMAIL" -p "$ADMIN_PASSWORD" 2>&1)
+              EXIT_CODE=$?
+
+              if echo "$OUTPUT" | grep -qi "already exists\|duplicate\|unique constraint"; then
+                echo "Admin user already exists, skipping creation"
+                exit 0
+              elif [ $EXIT_CODE -eq 0 ]; then
+                echo "Admin user created successfully"
+                exit 0
+              else
+                echo "Error creating admin user: $OUTPUT"
+                exit 1
+              fi
+          env:
+            - name: DB_SERVER
+              valueFrom:
+                secretKeyRef:
+                  name: rds-postgresql-instance-output
+                  key: rds_instance_address
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: rds-postgresql-instance-output
+                  key: database_name
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rds-postgresql-instance-output
+                  key: database_username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rds-postgresql-instance-output
+                  key: database_password
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: medusa-secrets
+                  key: jwt-secret
+            - name: COOKIE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: medusa-secrets
+                  key: cookie-secret
+            - name: ADMIN_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: medusa-secrets
+                  key: admin-email
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: medusa-secrets
+                  key: admin-password
+            - name: NODE_ENV
+              value: "production"
+            - name: DISABLE_MEDUSA_ADMIN
+              value: "false"
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: hmpps-digital-canteen-medusa-client-creds
+                  key: CLIENT_ID
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: hmpps-digital-canteen-medusa-client-creds
+                  key: CLIENT_SECRET
+            - name: REDIS_PRIMARY_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: digital-canteen-redis-secrets
+                  key: primary_endpoint_address
+                  optional: true
+            - name: REDIS_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: digital-canteen-redis-secrets
+                  key: auth_token
+                  optional: true

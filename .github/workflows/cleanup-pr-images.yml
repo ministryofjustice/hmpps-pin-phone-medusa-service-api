@@ -23,7 +23,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ORG: ministryofjustice
-          PKG: hmpps-digital-canteen-medusa-service
+          PKG: hmpps-pin-phone-medusa-service-api
           TAG: pr-${{ github.event.pull_request.number }}
         run: |
           ids=$(gh api --paginate \

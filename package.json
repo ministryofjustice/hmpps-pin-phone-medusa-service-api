@@ -1,5 +1,5 @@
 {
-  "name": "hmpps-digital-canteen-medusa-service",
+  "name": "hmpps-pin-phone-medusa-service-api",
   "private": false,
   "packageManager": "npm@11.8.0",
   "engines": {

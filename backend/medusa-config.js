@@ -100,7 +100,7 @@ module.exports = defineConfig({
             id: 'bt-payment',
             resolve: './src/modules/bt-payment',
             options: {
-              clientName: 'Digital Canteen Medusa',
+              clientName: 'PIN Phone Medusa',
             },
           },
         ],

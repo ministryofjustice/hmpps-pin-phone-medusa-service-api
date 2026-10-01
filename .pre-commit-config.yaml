@@ -42,5 +42,5 @@ repos:
       - id: trailing-whitespace
       - id: check-json
       - id: check-yaml
-        exclude: ^helm_deploy/hmpps-digital-canteen-medusa-service/templates/admin-user-job.yaml
+        exclude: ^helm_deploy/hmpps-pin-phone-medusa-service-api/templates/admin-user-job.yaml
       - id: check-merge-conflict
