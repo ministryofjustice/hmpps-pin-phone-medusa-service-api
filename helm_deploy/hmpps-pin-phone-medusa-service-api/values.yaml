@@ -47,10 +47,10 @@ generic-service:
       DB_NAME: "database_name"
       DB_USER: "database_username"
       DB_PASSWORD: "database_password"
-    hmpps-digital-canteen-medusa-client-creds:
+    hmpps-pin-phone-medusa-client-creds:
       CLIENT_ID: 'CLIENT_ID'
       CLIENT_SECRET: 'CLIENT_SECRET'
-    digital-canteen-redis-secrets:
+    pin-phone-redis-secrets:
       REDIS_PRIMARY_ENDPOINT: "primary_endpoint_address"
       REDIS_AUTH_TOKEN: "auth_token"
 

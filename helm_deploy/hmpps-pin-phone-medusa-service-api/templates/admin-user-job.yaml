@@ -97,22 +97,22 @@ spec:
             - name: CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: hmpps-digital-canteen-medusa-client-creds
+                  name: hmpps-pin-phone-medusa-client-creds
                   key: CLIENT_ID
             - name: CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: hmpps-digital-canteen-medusa-client-creds
+                  name: hmpps-pin-phone-medusa-client-creds
                   key: CLIENT_SECRET
             - name: REDIS_PRIMARY_ENDPOINT
               valueFrom:
                 secretKeyRef:
-                  name: digital-canteen-redis-secrets
+                  name: pin-phone-redis-secrets
                   key: primary_endpoint_address
                   optional: true
             - name: REDIS_AUTH_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: digital-canteen-redis-secrets
+                  name: pin-phone-redis-secrets
                   key: auth_token
                   optional: true

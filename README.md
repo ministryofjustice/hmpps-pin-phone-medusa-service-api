@@ -1,5 +1,5 @@
-# hmpps-digital-canteen-medusa-service
-E-commerce service for the HMPPS Digital Canteen.
+# hmpps-pin-phone-medusa-service-api
+E-commerce service for the HMPPS PIN Phone.
 
 ## Running application locally
 
