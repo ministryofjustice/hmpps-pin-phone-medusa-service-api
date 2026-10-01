@@ -1,0 +1,41 @@
+name: Cleanup PR images
+
+on:
+  pull_request:
+    types: [ closed ]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: PR number to clean up
+        required: true
+        type: string
+
+permissions:
+  packages: write
+
+jobs:
+  cleanup_closed_pr:
+    if: github.event_name == 'pull_request'
+    name: Cleanup docker image for PR after close
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete image version for PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ORG: ministryofjustice
+          PKG: hmpps-digital-canteen-medusa-service
+          TAG: pr-${{ github.event.pull_request.number }}
+        run: |
+          ids=$(gh api --paginate \
+            "/orgs/$ORG/packages/container/$PKG/versions" \
+            --jq ".[] | select(.metadata.container.tags[]? == \"$TAG\") | .id")
+
+          if [ -z "$ids" ]; then
+            echo "No version found tagged $TAG"
+            exit 0
+          fi
+
+          for id in $ids; do
+            echo "Deleting version $id (tag: $TAG)"
+            gh api -X DELETE "/orgs/$ORG/packages/container/$PKG/versions/$id"
+          done
