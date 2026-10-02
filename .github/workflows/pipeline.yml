@@ -125,7 +125,7 @@ jobs:
   pr_docker_health_check:
     name: PR Docker build and health check
     runs-on: ubuntu-latest
-#    if: github.ref != 'refs/heads/main'
+    if: github.ref != 'refs/heads/main'
     needs:
       - node_build
       - helm_lint
@@ -213,7 +213,7 @@ jobs:
   # build docker image
   build:
     name: Build docker image from hmpps-github-actions
-#    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@v2 # WORKFLOW_VERSION
     needs:
       - helm_lint
@@ -223,7 +223,7 @@ jobs:
       docker_registry: 'ghcr.io'
       registry_org: 'ministryofjustice'
       additional_docker_tag: ${{ inputs.additional_docker_tag }}
-      push: true
+      push: ${{ inputs.push || inputs.push == null }}
       docker_multiplatform: false
 
   # Deploy to environment
