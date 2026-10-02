@@ -1,0 +1,62 @@
+generic-service:
+  nameOverride: hmpps-pin-phone-medusa-service-api
+  productId: "DPS128"
+
+  replicaCount: 4
+
+  image:
+    repository: ghcr.io/ministryofjustice/hmpps-pin-phone-medusa-service-api
+    tag: app_version # override at deployment time
+    port: 9000
+
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 45
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 45
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+
+  ingress:
+    enabled: true
+    host: app-hostname.local # override per environment
+    tlsSecretName: hmpps-pin-phone-medusa-cert
+
+  env:
+    NODE_ENV: "production"
+    PORT: "9000"
+
+  namespace_secrets:
+    medusa-secrets:
+      JWT_SECRET: "jwt-secret"
+      COOKIE_SECRET: "cookie-secret"
+      ADMIN_EMAIL: "admin-email"
+      ADMIN_PASSWORD: "admin-password"
+    rds-postgresql-instance-output:
+      DB_SERVER: "rds_instance_address"
+      DB_NAME: "database_name"
+      DB_USER: "database_username"
+      DB_PASSWORD: "database_password"
+    hmpps-pin-phone-medusa-client-creds:
+      CLIENT_ID: 'CLIENT_ID'
+      CLIENT_SECRET: 'CLIENT_SECRET'
+    pin-phone-redis-secrets:
+      REDIS_PRIMARY_ENDPOINT: "primary_endpoint_address"
+      REDIS_AUTH_TOKEN: "auth_token"
+
+  allowlist:
+    groups:
+      - internal
+
+generic-prometheus-alerts:
+  targetApplication: hmpps-pin-phone-medusa-service

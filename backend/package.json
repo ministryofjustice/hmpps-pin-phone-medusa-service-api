@@ -1,0 +1,74 @@
+{
+  "name": "@dtc/backend",
+  "version": "0.0.1",
+  "description": "A starter for Medusa projects.",
+  "author": "Medusa (https://medusajs.com)",
+  "license": "MIT",
+  "keywords": [
+    "sqlite",
+    "postgres",
+    "typescript",
+    "ecommerce",
+    "headless",
+    "medusa"
+  ],
+  "scripts": {
+    "build": "medusa build",
+    "start": "medusa start",
+    "dev": "medusa develop",
+    "test:integration:http": "TEST_TYPE=integration:http NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
+    "test:integration:modules": "TEST_TYPE=integration:modules NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit",
+    "test:unit": "TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit",
+    "db:migrate": "npx medusa db:migrate --execute-safe-links",
+    "setup": "npm ci --legacy-peer-deps && hmpps-npm-script-run-allowlist"
+  },
+  "dependencies": {
+    "@medusajs/admin-sdk": "^2.20.0",
+    "@medusajs/cache-redis": "2.20.0",
+    "@medusajs/caching": "2.20.0",
+    "@medusajs/cli": "2.20.0",
+    "@medusajs/draft-order": "2.20.0",
+    "@medusajs/framework": "2.20.0",
+    "@medusajs/medusa": "2.20.0",
+    "@medusajs/workflow-engine-redis": "2.20.0",
+    "@ministryofjustice/hmpps-auth-clients": "^1.0.2",
+    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
+    "@ministryofjustice/hmpps-rest-client": "^1.2.0",
+    "@types/jsonwebtoken": "9.0.10",
+    "jwks-rsa": "4.1.0",
+    "zod": "4.2.0"
+  },
+  "devDependencies": {
+    "@medusajs/medusa-oas-cli": "2.20.0",
+    "@medusajs/test-utils": "2.20.0",
+    "@medusajs/utils": "2.20.0",
+    "@swc/core": "^1.10.1",
+    "@swc/jest": "^0.2.37",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^24.0.0",
+    "jest": "^29.7.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2",
+    "yalc": "^1.0.0-pre.53"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "npm@11.8.0",
+  "overrides": {
+    "lodash": "4.18.1",
+    "redoc": "2.4.0",
+    "brace-expansion": "5.0.9",
+    "fast-uri": "3.1.7",
+    "js-yaml": "3.15.2",
+    "uuid": "11.1.1",
+    "qs": "6.16.0",
+    "ajv": "8.18.0",
+    "body-parser": "1.20.6",
+    "undici": "6.28.1",
+    "tar": "7.5.21",
+    "compression": "1.8.2",
+    "multer": "2.4.0",
+    "proxy-addr": "2.0.8"
+  }
+}

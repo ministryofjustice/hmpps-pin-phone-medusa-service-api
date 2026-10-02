@@ -1,0 +1,36 @@
+---
+# Per environment values which override defaults in hmpps-pin-phone-api/values.yaml
+
+generic-service:
+  replicaCount: 1
+
+  resources:
+    limits:
+      cpu: 2
+      memory: 1Gi
+      ephemeral-storage: 2Gi
+    requests:
+      cpu: 10m
+      memory: 512Mi
+      ephemeral-storage: 500Mi
+
+  ingress:
+    host: pin-phone-medusa-dev.prison.service.justice.gov.uk
+
+  env:
+    NODE_ENV: "production"
+    PORT: "9000"
+    DISABLE_MEDUSA_ADMIN: "false"
+    MEDUSA_BACKEND_URL: "https://pin-phone-medusa-dev.prison.service.justice.gov.uk"
+    ADMIN_CORS: "https://pin-phone-medusa-dev.prison.service.justice.gov.uk"
+    STORE_CORS: "*"
+    AUTH_CORS: "https://pin-phone-medusa-dev.prison.service.justice.gov.uk"
+    DISABLE_MEDUSA_TELEMETRY: "true"
+    HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
+    HMPPS_FINANCE_API_URL: "https://prison-api-dev.prison.service.justice.gov.uk"
+    HMPPS_PIN_PHONE_API: "https://pin-phone-dev.prison.service.justice.gov.uk"
+
+# CloudPlatform AlertManager receiver to route prometheus alerts to slack
+# See https://user-guide.cloud-platform.service.justice.gov.uk/documentation/monitoring-an-app/how-to-create-alarms.html#creating-your-own-custom-alerts
+generic-prometheus-alerts:
+  alertSeverity: n/a

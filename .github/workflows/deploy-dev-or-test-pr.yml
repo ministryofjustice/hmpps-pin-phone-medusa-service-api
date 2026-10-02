@@ -1,0 +1,41 @@
+name: Deploy PR to dev/test
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment
+        required: true
+        options:
+          - dev
+          - test
+      pr_number:
+        description: PR number (used for image tag)
+        required: true
+        type: string
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    name: Build docker image for PR dev/test deploy
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@v2
+    with:
+      docker_registry: 'ghcr.io'
+      registry_org: 'ministryofjustice'
+      additional_docker_tag: 'pr-${{ inputs.pr_number }}'
+      push: true
+      docker_multiplatform: false
+      tag_latest: false
+
+  deploy_pr:
+    name: Deploy to the dev/test environment
+    needs:
+      - build
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2
+    secrets: inherit
+    with:
+      environment: ${{ inputs.environment }}
+      app_version: '${{ needs.build.outputs.app_version }}'
+      slack_notification: 'false'
