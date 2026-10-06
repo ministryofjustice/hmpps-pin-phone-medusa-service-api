@@ -8,9 +8,6 @@ export default configureAllowedScripts({
     // Build tools
     'node_modules/@swc/core@1.16.1': ['postinstall'],
 
-    // Core-js sponsorship message - not needed
-    'node_modules/core-js@3.50.0': 'FORBID',
-
     // Native modules
     'node_modules/msgpackr-extract@3.0.4': ['install'],
 
