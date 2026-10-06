@@ -2,5 +2,11 @@
   "low": true,
   "package-manager": "auto",
   "registry": "https://registry.npmjs.org",
-  "allowlist": []
+  "allowlist": [
+    {
+      "id": "GHSA-vfj7-8cjw-p6xm",
+      "reason": "braces - transitive via @medusajs",
+      "expiry": "2027-01-01"
+    }
+  ]
 }
