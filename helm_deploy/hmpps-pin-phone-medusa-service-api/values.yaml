@@ -59,4 +59,4 @@ generic-service:
       - internal
 
 generic-prometheus-alerts:
-  targetApplication: hmpps-pin-phone-medusa-service
+  targetApplication: hmpps-pin-phone-medusa-service-api
