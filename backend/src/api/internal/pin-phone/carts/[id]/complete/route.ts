@@ -29,53 +29,54 @@ function buildErrorResponse(status: number, opts: Omit<ErrorResponse, 'status'> 
 }
 
 /**
- * @oas [post] /internal/pin-phone/carts/{id}/complete
- * operationId: completePinPhoneCart
- * summary: Complete a PIN phone cart
- * description: "Completes a PIN phone cart by processing the BT payment result and running the transaction"
- * parameters:
- *   - in: path
- *     name: id
- *     required: true
- *     schema:
- *       type: string
- *     description: The cart ID
- * requestBody:
- *   required: true
- *   content:
- *     application/json:
- *       schema:
- *         type: object
- *         required:
- *           - PaymentRequest
- *         properties:
- *           PaymentRequest:
+ * @openapi
+ * /internal/pin-phone/carts/{id}/complete:
+ *   post:
+ *     operationId: completePinPhoneCart
+ *     summary: Complete a PIN phone cart
+ *     description: >
+ *       Completes a PIN phone cart by creating a payment collection,
+ *       payment session with the BT payment result, and running the
+ *       cart completion workflow.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The cart ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
  *             $ref: '#/components/schemas/PaymentRequest'
- * responses:
- *   200:
- *     description: Payment outcome recorded
- *     content:
- *       application/json:
- *         schema:
- *           $ref: '#/components/schemas/CompleteCartResponse'
- *   400:
- *     description: Invalid request
- *     content:
- *       application/json:
- *         schema:
- *           $ref: '#/components/schemas/ErrorResponse'
- *   404:
- *     description: Cart not found
- *     content:
- *       application/json:
- *         schema:
- *           $ref: '#/components/schemas/ErrorResponse'
- *   500:
- *     description: Internal error
- *     content:
- *       application/json:
- *         schema:
- *           $ref: '#/components/schemas/ErrorResponse'
+ *     responses:
+ *       200:
+ *         description: Cart completed or payment failure recorded
+ *         content:
+ *           application/json:
+ *             schema:
+ *               oneOf:
+ *                 - $ref: '#/components/schemas/CompleteCartResponse'
+ *       400:
+ *         description: Invalid request — missing or invalid payload, or empty cart
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       404:
+ *         description: Cart not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Internal error during payment collection or session creation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
   const { id } = req.params
