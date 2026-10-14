@@ -4,37 +4,40 @@ import { Modules, ContainerRegistrationKeys, ModuleRegistrationName } from '@med
 import { PRISONER_MODULE } from '../../../../modules/prisoner-details'
 
 /**
- * @oas [post] /internal/pin-phone/carts
- * operationId: createPinPhoneCart
- * summary: Create a PIN phone cart
- * description: Creates a new cart for a prisoner's PIN phone purchase. If the prisoner
- *   has used the service before, the cart is linked to their existing customer record.
- *   Otherwise, a new customer and prisoner record are created and linked.
- * requestBody:
- *   required: true
- *   content:
- *     application/json:
- *       schema:
- *         $ref: '#/components/schemas/CreateCartRequest'
- * responses:
- *   200:
- *     description: Cart created successfully
- *     content:
- *       application/json:
- *         schema:
- *           $ref: '#/components/schemas/CartResponse'
- *   404:
- *     description: Region not found
- *     content:
- *       application/json:
- *         schema:
- *           $ref: '#/components/schemas/ErrorResponse'
- *   500:
- *     description: Failed to create cart
- *     content:
- *       application/json:
- *         schema:
- *           $ref: '#/components/schemas/ErrorResponse'
+ * @openapi
+ * /internal/pin-phone/carts:
+ *   post:
+ *     operationId: createPinPhoneCart
+ *     summary: Create a PIN phone cart
+ *     description: >
+ *       Creates a new cart for a prisoner's PIN phone purchase. If the prisoner
+ *       has used the service before, the cart is linked to their existing customer record.
+ *       Otherwise, a new customer and prisoner record are created and linked.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/CreateCartRequest'
+ *     responses:
+ *       200:
+ *         description: Cart created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/CartResponse'
+ *       404:
+ *         description: Region not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Failed to create cart
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
   try {
@@ -42,12 +45,10 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
       metadata: {
         prison_id: string
         offender_no: string
-        first_name: string
-        second_name: string
       }
     }
 
-    const { prison_id, offender_no, first_name, second_name } = metadata
+    const { prison_id, offender_no } = metadata
     const prisonerService = req.scope.resolve(PRISONER_MODULE)
     const customerService = req.scope.resolve(Modules.CUSTOMER)
     const link = req.scope.resolve(ContainerRegistrationKeys.LINK)
@@ -72,8 +73,6 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
       customerId = linked?.customer?.id
     } else {
       const customer = await customerService.createCustomers({
-        first_name,
-        last_name: second_name,
         metadata: {
           prison_id,
           offender_no,
@@ -83,8 +82,6 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
       const prisoner = await prisonerService.createPrisoners({
         prison_id,
         prisoner_id: offender_no,
-        prisoner_first_name: first_name,
-        prisoner_second_name: second_name,
       })
       await link.create({
         [Modules.CUSTOMER]: { customer_id: customer.id },

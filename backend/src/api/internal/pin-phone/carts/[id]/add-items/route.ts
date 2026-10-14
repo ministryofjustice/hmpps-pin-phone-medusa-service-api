@@ -3,42 +3,44 @@ import { addToCartWorkflow } from '@medusajs/medusa/core-flows'
 import { Modules, ModuleRegistrationName } from '@medusajs/framework/utils'
 
 /**
- * @oas [post] /internal/pin-phone/carts/{id}/add-items
- * operationId: addPinPhoneToCart
- * summary: Add PIN phone credit to cart
- * description: Adds a PIN phone credit item to the specified cart with the given amount.
- * parameters:
- *   - in: path
- *     name: id
- *     required: true
- *     schema:
- *       type: string
- *     description: The cart ID
- * requestBody:
- *   required: true
- *   content:
- *     application/json:
- *       schema:
- *         $ref: '#/components/schemas/AddItemsRequest'
- * responses:
- *   200:
- *     description: Item added to cart successfully
- *     content:
- *       application/json:
+ * @openapi
+ * /internal/pin-phone/carts/{id}/add-items:
+ *   post:
+ *     operationId: addPinPhoneToCart
+ *     summary: Add PIN phone credit to cart
+ *     description: Adds a PIN phone credit item to the specified cart with the given amount.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
  *         schema:
- *           $ref: '#/components/schemas/CartResponse'
- *   404:
- *     description: PIN Phone variant not found
- *     content:
- *       application/json:
- *         schema:
- *           $ref: '#/components/schemas/ErrorResponse'
- *   500:
- *     description: Failed to add pin phone to cart
- *     content:
- *       application/json:
- *         schema:
- *           $ref: '#/components/schemas/ErrorResponse'
+ *           type: string
+ *         description: The cart ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AddItemsRequest'
+ *     responses:
+ *       200:
+ *         description: Item added to cart successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/CartResponse'
+ *       404:
+ *         description: PIN Phone variant not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Failed to add pin phone to cart
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
   try {
