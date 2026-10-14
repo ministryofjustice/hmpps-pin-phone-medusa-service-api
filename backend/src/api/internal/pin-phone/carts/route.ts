@@ -45,12 +45,10 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
       metadata: {
         prison_id: string
         offender_no: string
-        first_name: string
-        second_name: string
       }
     }
 
-    const { prison_id, offender_no, first_name, second_name } = metadata
+    const { prison_id, offender_no } = metadata
     const prisonerService = req.scope.resolve(PRISONER_MODULE)
     const customerService = req.scope.resolve(Modules.CUSTOMER)
     const link = req.scope.resolve(ContainerRegistrationKeys.LINK)

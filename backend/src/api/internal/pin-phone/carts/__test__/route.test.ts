@@ -84,8 +84,6 @@ describe('POST /internal/carts/create-cart', () => {
         metadata: {
           prison_id: 'ASI123',
           offender_no: 'STU999',
-          first_name: 'John',
-          second_name: 'Doe',
         },
       },
       scope: container,

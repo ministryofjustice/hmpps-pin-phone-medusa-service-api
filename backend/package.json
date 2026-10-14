@@ -35,7 +35,9 @@
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
     "@ministryofjustice/hmpps-rest-client": "^1.2.0",
     "@types/jsonwebtoken": "9.0.10",
-    "jwks-rsa": "4.1.0"
+    "jwks-rsa": "4.1.0",
+    "swagger-jsdoc": "6.3.0",
+    "swagger-ui-express": "5.0.1"
   },
   "devDependencies": {
     "@medusajs/medusa-oas-cli": "2.20.0",
@@ -46,8 +48,6 @@
     "@types/jest": "^29.5.14",
     "@types/node": "^24.0.0",
     "jest": "^29.7.0",
-    "swagger-jsdoc": "6.3.0",
-    "swagger-ui-express": "5.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
     "yalc": "^1.0.0-pre.53"
