@@ -57375,16 +57375,6 @@
                 "type": "string",
                 "description": "The prisoner's offender number",
                 "example": "A1234BC"
-              },
-              "first_name": {
-                "type": "string",
-                "description": "Prisoner's first name",
-                "example": "John"
-              },
-              "second_name": {
-                "type": "string",
-                "description": "Prisoner's last name",
-                "example": "Smith"
               }
             }
           }

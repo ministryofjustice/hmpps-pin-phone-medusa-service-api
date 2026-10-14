@@ -72,8 +72,6 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
       customerId = linked?.customer?.id
     } else {
       const customer = await customerService.createCustomers({
-        first_name,
-        last_name: second_name,
         metadata: {
           prison_id,
           offender_no,
@@ -83,8 +81,6 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
       const prisoner = await prisonerService.createPrisoners({
         prison_id,
         prisoner_id: offender_no,
-        prisoner_first_name: first_name,
-        prisoner_second_name: second_name,
       })
       await link.create({
         [Modules.CUSTOMER]: { customer_id: customer.id },
