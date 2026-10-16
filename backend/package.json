@@ -23,6 +23,7 @@
     "setup": "npm ci --legacy-peer-deps && hmpps-npm-script-run-allowlist"
   },
   "dependencies": {
+    "@agilo/medusa-analytics-plugin": "1.4.0",
     "@medusajs/admin-sdk": "^2.20.0",
     "@medusajs/cache-redis": "2.20.0",
     "@medusajs/caching": "2.20.0",
