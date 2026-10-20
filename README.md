@@ -38,6 +38,7 @@ Admin portal
 
     http://localhost:9000/app/
 
-### OPA specification
-To update OPA spec
-npx medusa-oas oas --type store --out-dir ./src/oas --paths ./src/api --base ./src/oas/store.base.yaml
+### OpenAPI specification
+To update spec
+
+    npx tsx src/oas/generate.ts

@@ -1,0 +1,132 @@
+import fs from 'fs'
+import swaggerJsdoc from 'swagger-jsdoc'
+
+const spec = swaggerJsdoc({
+  definition: {
+    openapi: '3.0.3',
+    info: {
+      title: 'Medusa API',
+      description: 'Medusa API specifications',
+      version: '1.0.0',
+      contact: {
+        name: 'HMPPS Digital Studio',
+        email: 'feedback@digital.justice.gov.uk',
+      },
+    },
+    components: {
+      schemas: {
+        CreateCartRequest: {
+          type: 'object',
+          required: ['metadata'],
+          properties: {
+            metadata: {
+              $ref: '#/components/schemas/CartMetadata',
+            },
+          },
+        },
+        CartMetadata: {
+          type: 'object',
+          required: ['prison_id', 'offender_no'],
+          properties: {
+            prison_id: { type: 'string', description: 'The prison identifier', example: 'MDI' },
+            offender_no: { type: 'string', description: "The prisoner's offender number", example: 'A1234BC' },
+          },
+        },
+        AddItemsRequest: {
+          type: 'object',
+          required: ['amount'],
+          properties: {
+            amount: { type: 'integer', format: 'int64', description: 'Amount in pence', example: 1000 },
+          },
+        },
+        CartResponse: {
+          type: 'object',
+          properties: {
+            cart: {
+              type: 'object',
+              properties: {
+                id: { type: 'string', description: 'The cart ID', example: 'cart_1234567890' },
+              },
+            },
+          },
+        },
+        PaymentRequest: {
+          type: 'object',
+          required: ['amountPence', 'offenderNo', 'prisonId'],
+          properties: {
+            amountPence: { type: 'integer', format: 'int64', description: 'Amount in pence', example: 1000 },
+            offenderNo: { type: 'string', description: "The prisoner's offender number", example: 'A1234BC' },
+            prisonId: { type: 'string', description: "The prisoner's prison number", example: 'ASI' },
+            paymentStatus: {
+              type: 'string',
+              enum: ['AUTHORIZED', 'ERROR'],
+              description: 'Payment authorisation status',
+              example: 'AUTHORIZED',
+            },
+            financeTransactionReference: {
+              type: 'string',
+              description: 'Transaction reference from release hold create transaction',
+              example: 'TXN-2024-00001',
+            },
+            financeHoldNumber: {
+              type: 'integer',
+              format: 'int64',
+              description: 'The finance hold number',
+              example: 12345,
+            },
+            btCreditReference: { type: 'string', description: 'BT add credit reference', example: 'TXN-2024-00001' },
+            btCreditLimitPence: { type: 'integer', description: 'BT credit limit in pence', example: 1000 },
+            btPreBalancePence: {
+              type: 'integer',
+              description: 'BT balance pre balance change in pence',
+              example: 1000,
+            },
+            btNewBalancePence: { type: 'integer', description: 'BT updated balance', example: 1000 },
+            errorCode: {
+              type: 'string',
+              description: 'Error code when payment failed',
+              enum: [
+                'HOLD_FAILED',
+                'BT_PAYMENT_FAILED',
+                'RELEASE_HOLD_CREATE_TRANSACTION_FAILED',
+                'RELEASE_HOLD_FAILED',
+              ],
+            },
+            errorMessage: {
+              type: 'string',
+              description: 'Error message if payment failed',
+              example: 'Insufficient funds on prisoner account',
+            },
+          },
+        },
+        CompleteCartResponse: {
+          type: 'object',
+          required: ['paymentSuccessful'],
+          properties: {
+            paymentSuccessful: { type: 'boolean', description: 'Indicates successful payment' },
+            orderStatusRecorded: {
+              type: 'boolean',
+              description: 'Indicates whether medusa was able to complete cart and record order',
+            },
+            orderId: { type: 'string', description: 'The order id within medusa' },
+            cartId: { type: 'string', description: 'The cart ID' },
+          },
+        },
+        ErrorResponse: {
+          type: 'object',
+          required: ['status'],
+          properties: {
+            status: { type: 'integer', example: 500 },
+            errorCode: { type: 'string' },
+            userMessage: { type: 'string' },
+            developerMessage: { type: 'string' },
+            moreInfo: { type: 'string' },
+          },
+        },
+      },
+    },
+  },
+  apis: ['./src/api/internal/**/*.ts'],
+})
+
+fs.writeFileSync('./src/oas/internal.oas.json', JSON.stringify(spec, null, 2))

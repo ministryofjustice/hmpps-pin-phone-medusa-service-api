@@ -84,8 +84,6 @@ describe('POST /internal/carts/create-cart', () => {
         metadata: {
           prison_id: 'ASI123',
           offender_no: 'STU999',
-          first_name: 'John',
-          second_name: 'Doe',
         },
       },
       scope: container,
@@ -137,8 +135,6 @@ describe('POST /internal/carts/create-cart', () => {
     await POST(req, res)
 
     expect(customerService.createCustomers).toHaveBeenCalledWith({
-      first_name: 'John',
-      last_name: 'Doe',
       metadata: {
         prison_id: 'ASI123',
         offender_no: 'STU999',
@@ -149,8 +145,6 @@ describe('POST /internal/carts/create-cart', () => {
     expect(prisonerService.createPrisoners).toHaveBeenCalledWith({
       prison_id: 'ASI123',
       prisoner_id: 'STU999',
-      prisoner_first_name: 'John',
-      prisoner_second_name: 'Doe',
     })
 
     expect(linkService.create).toHaveBeenCalledWith({
