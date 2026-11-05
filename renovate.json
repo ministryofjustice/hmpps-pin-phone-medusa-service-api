@@ -1,0 +1,59 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>ministryofjustice/hmpps-renovate-config:node"],
+  "prBodyTemplate": "{{{table}}}{{{notes}}}{{{warnings}}}{{{controls}}}",
+  "prCreation": "immediate",
+  "packageRules": [
+    {
+      "matchManagers": ["npm"],
+      "rangeStrategy": "bump"
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "all non major NPM dependencies",
+      "groupSlug": "all-npm-minor-patch",
+      "stabilityDays": 7
+    },
+    {
+      "matchDepTypes": ["engines"],
+      "enabled": false
+    },
+    {
+      "matchPackageNames": ["typescript"],
+      "rangeStrategy": "bump",
+      "stabilityDays": 0
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["@types/node"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["node", "hmpps-node"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchFileNames": ["**/.github/workflows/**/*.ya?ml"],
+      "separateMinorPatch": true
+    },
+    {
+      "matchManagers": ["pre-commit"],
+      "groupName": "all pre-commit dependencies"
+    },
+    {
+      "description": "Group all @medusajs packages together",
+      "matchPackagePatterns": ["^@medusajs/"],
+      "groupName": "medusajs",
+      "groupSlug": "medusajs"
+    }
+  ],
+  "npmrc": "legacy-peer-deps=true",
+  "vulnerabilityAlerts": {
+    "stabilityDays": 0
+  }
+}
