@@ -23,7 +23,7 @@ import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
  *         schema:
  *           type: string
  *           format: date
- *         description: Lower bound for order dates (inclusive)
+ *         description: The start date of the SAR request
  *         example: '2026-01-01'
  *       - in: query
  *         name: toDate
@@ -31,7 +31,7 @@ import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
  *         schema:
  *           type: string
  *           format: date
- *         description: Upper bound for order dates (inclusive)
+ *         description: End start date of the SAR request
  *         example: '2026-12-31'
  *     responses:
  *       200:
