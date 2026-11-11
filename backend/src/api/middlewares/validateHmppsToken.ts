@@ -6,6 +6,7 @@ const REQUIRED_ROLE = 'ROLE_PIN_PHONE_CREDIT_API'
 
 export async function validateHmppsToken(req, res, next) {
   const { HMPPS_AUTH_URL } = process.env
+
   if (!HMPPS_AUTH_URL) {
     throw new Error('HMPPS_AUTH_URL environment variable is not set')
   }

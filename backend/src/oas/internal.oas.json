@@ -175,6 +175,146 @@
           }
         }
       },
+      "SarAccessRequest": {
+        "type": "object",
+        "required": [
+          "prisonerId"
+        ],
+        "properties": {
+          "prisonerId": {
+            "type": "string",
+            "description": "The prisoner's offender number",
+            "example": "G3682UE"
+          },
+          "fromDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The start date of the SAR request",
+            "example": "2026-01-01"
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The end date of the SAR request",
+            "example": "2026-12-31"
+          }
+        }
+      },
+      "SarRequestResponse": {
+        "type": "object",
+        "properties": {
+          "sarContent": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SarRequestContent"
+            }
+          }
+        }
+      },
+      "SarRequestContent": {
+        "type": "object",
+        "properties": {
+          "prisonCode": {
+            "type": "string",
+            "description": "Prison code",
+            "example": "CKI"
+          },
+          "orderStatus": {
+            "type": "string",
+            "description": "Order outcome",
+            "enum": [
+              "completed",
+              "failed"
+            ],
+            "example": "completed"
+          },
+          "orderCreatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the cart was created"
+          },
+          "orderUpdatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the cart was last updated"
+          },
+          "amountInPounds": {
+            "type": "string",
+            "description": "Payment amount in pounds",
+            "example": "5.00"
+          },
+          "rawAmount": {
+            "type": "string",
+            "description": "Raw amount with precision",
+            "example": "value : 0.01, precision : 20"
+          },
+          "paymentStatus": {
+            "type": "string",
+            "description": "Payment session status",
+            "enum": [
+              "AUTHORIZED",
+              "ERROR"
+            ],
+            "example": "AUTHORIZED"
+          },
+          "paymentAuthorizedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When payment was authorized"
+          },
+          "paymentCreatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When payment session was created"
+          },
+          "paymentUpdatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When payment session was last updated"
+          },
+          "amountInPence": {
+            "type": "string",
+            "description": "Payment amount in pence",
+            "example": "500"
+          },
+          "paymentOutcome": {
+            "type": "string",
+            "description": "BT payment outcome",
+            "enum": [
+              "AUTHORIZED",
+              "ERROR"
+            ],
+            "example": "AUTHORIZED"
+          },
+          "btCreditLimit": {
+            "type": "string",
+            "description": "BT credit limit in pence",
+            "example": "50000"
+          },
+          "btBalanceBeforeTransaction": {
+            "type": "string",
+            "description": "BT balance before transaction in pence",
+            "example": "1000"
+          },
+          "btBalanceAfterTransaction": {
+            "type": "string",
+            "description": "BT balance after transaction in pence",
+            "example": "1500"
+          },
+          "errorCode": {
+            "type": "string",
+            "nullable": true,
+            "description": "Error code if payment failed",
+            "example": "BT_PAYMENT_FAILED"
+          },
+          "errorDescription": {
+            "type": "string",
+            "nullable": true,
+            "description": "Error message if payment failed",
+            "example": "Insufficient funds on prisoner account"
+          }
+        }
+      },
       "ErrorResponse": {
         "type": "object",
         "required": [
@@ -202,6 +342,69 @@
     }
   },
   "paths": {
+    "/internal/pin-phone/subject-access-request": {
+      "get": {
+        "operationId": "SarAccessRequest",
+        "summary": "Get SAR report information for a given prisoner",
+        "description": "Returns all payment session data associated with the prisoner, covering both successful and unsuccessful transactions.\n",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "prisonerId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The prisoner's offender number",
+            "example": "G3682UE"
+          },
+          {
+            "in": "query",
+            "name": "fromDate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Lower bound for order dates (inclusive)",
+            "example": "2026-01-01"
+          },
+          {
+            "in": "query",
+            "name": "toDate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Upper bound for order dates (inclusive)",
+            "example": "2026-12-31"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SAR data returned successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SarRequestResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to generate SAR information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/internal/pin-phone/carts": {
       "post": {
         "operationId": "createPinPhoneCart",
