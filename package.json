@@ -17,7 +17,9 @@
     "typecheck": "cd backend && npx tsc --noEmit"
   },
   "devDependencies": {
-    "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
+    "@ministryofjustice/eslint-config-hmpps": "^1.0.4",
+    "@typescript-eslint/eslint-plugin": "^8.72.1",
+    "@typescript-eslint/parser": "^8.72.1",
     "lint-staged": "^17.0.7",
     "prettier": "^3.2.5"
   },
@@ -27,5 +29,4 @@
   "overrides": {
     "brace-expansion": "5.0.12"
   }
-
 }
