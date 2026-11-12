@@ -1,7 +1,7 @@
 {
   "name": "hmpps-pin-phone-medusa-service-api",
   "private": false,
-  "packageManager": "npm@11.8.0",
+  "packageManager": "npm@11.21.2",
   "engines": {
     "node": ">=24"
   },
@@ -20,8 +20,8 @@
     "@ministryofjustice/eslint-config-hmpps": "^1.0.4",
     "@typescript-eslint/eslint-plugin": "^8.72.1",
     "@typescript-eslint/parser": "^8.72.1",
-    "lint-staged": "^17.0.7",
-    "prettier": "^3.2.5"
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.10"
   },
   "dependencies": {
     "pre-commit": "^2.0.0"
