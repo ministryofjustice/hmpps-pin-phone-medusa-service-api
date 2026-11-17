@@ -20,7 +20,7 @@ generic-service:
   env:
     NODE_ENV: "production"
     PORT: "9000"
-    DISABLE_MEDUSA_ADMIN: "true"
+    DISABLE_MEDUSA_ADMIN: "false"
     MEDUSA_BACKEND_URL: "https://pin-phone-medusa-dev.prison.service.justice.gov.uk"
     ADMIN_CORS: "https://pin-phone-medusa-dev.prison.service.justice.gov.uk"
     STORE_CORS: "*"
