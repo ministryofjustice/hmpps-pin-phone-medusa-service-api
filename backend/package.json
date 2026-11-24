@@ -79,7 +79,7 @@
     "@redocly/cli": "2.57.0",
     "postcss-selector-parser": "7.1.6",
     "source-map-js": "1.2.2",
-    "@graphql-tools/utils": "12.0.2",
+    "@graphql-tools/utils": "13.2.2",
     "zod": "4.6.6"
   }
 }
