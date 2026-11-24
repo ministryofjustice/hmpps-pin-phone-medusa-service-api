@@ -112,6 +112,35 @@ const spec = swaggerJsdoc({
             cartId: { type: 'string', description: 'The cart ID' },
           },
         },
+        GetCartResponse: {
+          type: 'object',
+          required: ['cartId', 'completed', 'itemCount', 'totalPence'],
+          properties: {
+            cartId: { type: 'string', description: 'The cart ID', example: 'cart_01M84N81ECB8C9ZV1MRC2QK1WX' },
+            completed: {
+              type: 'boolean',
+              description: 'True if the cart has been completed (checkout recorded in Medusa)',
+            },
+            completedAt: {
+              type: 'string',
+              format: 'date-time',
+              nullable: true,
+              description: 'When the cart was completed, null if not completed',
+            },
+            orderId: {
+              type: 'string',
+              nullable: true,
+              description: 'The Medusa order ID created from this cart, null if not completed',
+              example: 'order_01M84N83XYZ...',
+            },
+            offenderNo: {
+              type: 'string',
+              nullable: true,
+              description: 'The offender number the cart was created for (from cart metadata)',
+              example: 'G2320VD',
+            },
+          },
+        },
         SarAccessRequest: {
           type: 'object',
           required: ['prisonerId'],
