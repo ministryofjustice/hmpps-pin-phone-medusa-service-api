@@ -31,7 +31,7 @@
     "@medusajs/framework": "2.20.0",
     "@medusajs/medusa": "2.20.0",
     "@medusajs/workflow-engine-redis": "2.20.0",
-    "@ministryofjustice/hmpps-auth-clients": "^1.0.2",
+    "@ministryofjustice/hmpps-auth-clients": "^3.1.0",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
     "@ministryofjustice/hmpps-rest-client": "^1.2.0",
     "@types/jsonwebtoken": "9.0.10",
