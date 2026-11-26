@@ -33,7 +33,7 @@
     "@medusajs/workflow-engine-redis": "2.20.0",
     "@ministryofjustice/hmpps-auth-clients": "^1.0.2",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
-    "@ministryofjustice/hmpps-rest-client": "^1.2.0",
+    "@ministryofjustice/hmpps-rest-client": "^2.3.0",
     "@types/jsonwebtoken": "9.0.10",
     "jwks-rsa": "4.1.0",
     "swagger-jsdoc": "6.3.0",
