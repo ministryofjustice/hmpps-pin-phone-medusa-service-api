@@ -90,6 +90,8 @@ const spec = swaggerJsdoc({
                 'BT_PAYMENT_FAILED',
                 'RELEASE_HOLD_CREATE_TRANSACTION_FAILED',
                 'RELEASE_HOLD_FAILED',
+                'PHONE_TRANSACTION_FAILED',
+                'PHONE_REFUND_TRANSACTION_FAILED',
               ],
             },
             errorMessage: {
